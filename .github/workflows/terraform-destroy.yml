@@ -3,7 +3,7 @@
 name: Terraform Destroy
 
 on:
-  workflow_dispatch: # chạy thủ công
+  workflow_dispatch: # chạy thủ công từ GitHub UI
 
 permissions:
   contents: read
@@ -12,21 +12,25 @@ permissions:
 jobs:
   destroy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: 📦 Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Terraform
+      - name: ☁️ Configure AWS Credentials ✅
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2 # 🟡 nhớ đúng vùng backend
+
+      - name: 🔧 Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.6
 
-      - name: Terraform Init
+      - name: 📁 Terraform Init ✅
         run: terraform init
 
-      - name: Terraform Destroy
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ap-southeast-2
+      - name: 💥 Terraform Destroy
         run: terraform destroy -auto-approve
