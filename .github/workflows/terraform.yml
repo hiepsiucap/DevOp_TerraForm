@@ -45,7 +45,7 @@ jobs:
         run: pip install checkov
 
       - name: 🔎 Run Checkov Security Scan
-        run: checkov -d . --quiet --soft-fail false
+        run: checkov -d . --quiet
 
       - name: 📊 Terraform Plan
         run: terraform plan
