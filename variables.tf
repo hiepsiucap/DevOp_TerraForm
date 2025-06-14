@@ -33,7 +33,7 @@ variable "ami_id" {
 variable "key_name" {
   description = "Name of the key pair to use for EC2 instances"
   type        = string
-  default     = "hiep123456" 
+  default     = "hiep123456"
 }
 
 # SG MODULE
